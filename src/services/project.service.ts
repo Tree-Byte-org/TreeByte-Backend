@@ -1,5 +1,6 @@
 import db from "@/lib/db/db";
 import { uploadToIPFS } from "@/lib/ipfs/upload-to-ipfs";
+import { deployProjectToken } from "@/lib/soroban/deploy-project-token";
 
 type ProjectDTO = {
   name: string;
@@ -12,32 +13,34 @@ type ProjectDTO = {
   supply: number;
 };
 
-// Simulated contract_id (for now, it's hardcoded)
-const SIMULATED_CONTRACT_ID = "CB1234567890SIMULATEDCONTRACTIDEXAMPLE";
-
 export const registerProjectService = async (project: ProjectDTO) => {
   // 1. Upload metadata to IPFS
   const ipfsResult = await uploadToIPFS(project);
 
-  // 2. Prepare complete object to insert into DB
+  // 2. Deploy soroban contract
+  const { contractId } = await deployProjectToken({
+    supply: project.supply,
+    name: project.name,
+    issuerPublicKey: project.issuer_public_key,
+  });
+
+  // 3. Prepare object to insert into DB
   const projectWithMetadata = {
     ...project,
     ipfs_hash: ipfsResult.ipfsHash,
     ipfs_url: ipfsResult.ipfsUrl,
-    contract_id: SIMULATED_CONTRACT_ID,
+    contract_id: contractId,
   };
 
-  // 3. Insert into 'projects' table
+  // 4. Insert into 'projects' table
   const { data, error } = await db
     .from("projects")
     .insert([projectWithMetadata])
     .select()
     .single();
-
   if (error) {
     console.error(error);
     throw new Error("Error inserting project into database");
   }
-
   return data;
 };
