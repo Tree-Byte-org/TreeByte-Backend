@@ -6,11 +6,11 @@ This is the backend for **TreeByte**, a platform that transforms your digital fo
 
 🧰 Tech Stack
 
-* Node.js + Express
-* TypeScript
-* Stellar SDK (Testnet-ready)
-* Dotenv for environment configuration
-* Module-alias for cleaner imports
+- Node.js + Express
+- TypeScript
+- Stellar SDK (Testnet-ready)
+- Dotenv for environment configuration
+- Module-alias for cleaner imports
 
 ---
 
@@ -52,6 +52,13 @@ MAIL_PASS=your_email_password_or_app_password
 PINATA_API_KEY=pinata_api_key
 PINATA_SECRET_API_KEY=pinata_secret_api_key
 PINATA_JWT=pinata_jwt
+
+# ================================
+# SOROBAN CONFIGURATION
+# ================================
+STELLAR_NETWORK=testnet
+CONTRACT_DEPLOYER=
+PROJECT_TOKEN_WASM_PATH=contracts/target/wasm32-unknown-unknown/release/project_token.wasm
 ```
 
 > You can find these keys in your Supabase [dashboard](https://supabase.com/dashboard), under **Project Settings → API**.
@@ -62,9 +69,9 @@ PINATA_JWT=pinata_jwt
 
 ### 1. Create a Supabase Project
 
-* Go to [https://supabase.com](https://supabase.com)
-* Create a new project
-* Save the project ref and password
+- Go to [https://supabase.com](https://supabase.com)
+- Create a new project
+- Save the project ref and password
 
 ### 2. Link Your Supabase Project
 
