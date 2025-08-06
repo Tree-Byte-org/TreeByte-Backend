@@ -14,7 +14,8 @@
     "test:purchase:nft": "ts-node -r tsconfig-paths/register src/test/stellar/test-purchase-nft.ts",
     "test:register": "ts-node -r tsconfig-paths/register src/test/stellar/test-auth-register.ts",
     "test:trustline": "ts-node -r tsconfig-paths/register src/test/stellar/test-trustline.ts",
-    "test:project-creation": "ts-node -r tsconfig-paths/register src/test/project-creation-integration.test.ts"
+    "test:project-creation": "ts-node -r tsconfig-paths/register src/test/project-creation-integration.test.ts",
+    "test:coupon-metadata": "ts-node -r tsconfig-paths/register src/test/coupon-metadata.test.ts"
   },
   "keywords": [],
   "author": "Josué Araya",
