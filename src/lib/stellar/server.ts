@@ -1,12 +1,11 @@
-import { Horizon } from '@stellar/stellar-sdk';
-import { STELLAR_CONFIG } from '@/config/stellar-config';
+import { stellarClientService } from '@/services/stellar';
 
-export const stellarServer = new Horizon.Server(STELLAR_CONFIG.horizonURL);
+export const stellarServer = stellarClientService.getServer();
 
 export const loadAccount = async (publicKey: string) => {
-  return stellarServer.loadAccount(publicKey);
+  return stellarClientService.getAccount(publicKey);
 };
 
 export const fetchBaseFee = async () => {
-  return stellarServer.fetchBaseFee();
+  return stellarClientService.fetchBaseFee();
 };

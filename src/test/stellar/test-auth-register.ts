@@ -1,15 +1,7 @@
 import { fetch } from "undici";
-import { Horizon } from "@stellar/stellar-sdk";
-import { STELLAR_CONFIG } from "@/config/stellar-config";
+import { accountService } from "@/services/stellar";
 
-const server = new Horizon.Server(STELLAR_CONFIG.horizonURL);
 const API_URL = "http://localhost:3000";
-
-const fundAccount = async (publicKey: string) => {
-  const url = `${STELLAR_CONFIG.friendbotURL}?addr=${publicKey}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`❌ Friendbot failed: ${res.statusText}`);
-};
 
 interface RegisterResponse {
   message: string;
@@ -55,14 +47,18 @@ interface RegisterResponse {
   console.log(`🔑 Public key: ${publicKey}`);
 
   console.log("\n💸 Funding Stellar account...");
-  await fundAccount(publicKey);
+  await accountService.fundAccount(publicKey);
   console.log("✅ Account funded.");
 
-  const account = await server.loadAccount(publicKey);
+  // Wait for account to be available
+  console.log("⏳ Waiting for account to be available...");
+  await accountService.waitForAccount(publicKey);
+
+  const balances = await accountService.getBalances(publicKey);
   console.log(`📊 Balances:`);
 
-  for (const b of account.balances) {
-    if ("asset_code" in b && "asset_issuer" in b) {
+  for (const b of balances) {
+    if (b.asset_code && b.asset_issuer) {
       console.log(`• ${b.balance} ${b.asset_code}`);
     } else {
       console.log(`• ${b.balance} ${b.asset_type}`); // e.g., native (XLM)

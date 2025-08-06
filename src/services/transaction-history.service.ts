@@ -1,19 +1,12 @@
-import { Horizon } from '@stellar/stellar-sdk';
-import { STELLAR_CONFIG } from '@/config/stellar-config';
-
-const server = new Horizon.Server(STELLAR_CONFIG.horizonURL);
+import { transactionService } from '@/services/stellar';
 
 export const getTransactionHistory = async (publicKey: string) => {
-  const transactions = await server.transactions()
-    .forAccount(publicKey)
-    .order('desc')
-    .limit(10)
-    .call();
+  const transactions = await transactionService.getTransactionHistory(publicKey, 10);
 
-  return transactions.records.map((tx: any) => ({
+  return transactions.map((tx) => ({
     hash: tx.hash,
-    asset_code: tx.asset_code || 'XLM',
-    amount: tx.amount || 'N/A',
+    asset_code: 'XLM', // This will need to be enhanced to get actual asset codes from operations
+    amount: 'N/A', // This will need to be enhanced to get actual amounts from operations
     created_at: tx.created_at,
     memo: tx.memo,
     status: tx.successful ? 'Success' : 'Failed',

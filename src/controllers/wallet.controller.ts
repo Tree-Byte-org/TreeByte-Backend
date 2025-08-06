@@ -1,6 +1,7 @@
 import express from 'express';
 import db from '@/lib/db/db';
 import { generateStellarWallet } from '@/services/wallet-service';
+import { walletService, accountService } from '@/services/stellar';
 import { RecoveryService } from '@/services/recovery.service';
 import { MailerService } from '../services/mailer.service';
 
@@ -36,7 +37,7 @@ export const createWallet = async (
 
     // 🔗 External wallet
     if (publicKey) {
-      if (!/^G[A-Z2-7]{55}$/.test(publicKey)) {
+      if (!accountService.validatePublicKey(publicKey)) {
         return res.status(400).json({ error: 'Invalid publicKey format' });
       }
 

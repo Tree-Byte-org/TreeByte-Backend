@@ -85,3 +85,6 @@ pids/
 
 # === OS TEMP ===
 ~$*
+
+# == Claude ==
+.claude/

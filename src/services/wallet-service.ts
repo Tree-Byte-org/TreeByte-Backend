@@ -1,15 +1,5 @@
-import { Keypair } from '@stellar/stellar-sdk';
-import { encrypt } from '@/utils/encryption';
+import { walletService } from '@/services/stellar';
 
 export function generateStellarWallet(passphrase: string) {
-  const keypair = Keypair.random();
-  const publicKey = keypair.publicKey();
-  const secretKey = keypair.secret();
-
-  const encryptedSecret = encrypt(secretKey, passphrase);
-
-  return {
-    publicKey,
-    encryptedSecret,
-  };
+  return walletService.generateWallet(passphrase);
 }
