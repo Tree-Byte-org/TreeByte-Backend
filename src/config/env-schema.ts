@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 export const envSchema = Joi.object({
   NODE_ENV: Joi.string()
-    .valid('development', 'staging', 'production')
+    .valid('development', 'staging', 'production', 'test')
     .default('development'),
   PORT: Joi.number().port().default(3000),
 
@@ -53,4 +53,4 @@ export const envSchema = Joi.object({
   API_URL: Joi.string().uri({ scheme: ['http', 'https'] }).optional(),
 }).unknown();
 
-export type NodeEnv = 'development' | 'staging' | 'production';
+export type NodeEnv = 'development' | 'staging' | 'production' | 'test';
