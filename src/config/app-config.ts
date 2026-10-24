@@ -66,6 +66,7 @@ const envSpecific = {
   development,
   staging,
   production,
+  test: development,
 }[envName];
 
 const passphrase = envVars.NETWORK_PASSPHRASE || envVars.STELLAR_NETWORK_PASSPHRASE;
